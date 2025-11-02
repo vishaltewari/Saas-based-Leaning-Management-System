@@ -14,8 +14,9 @@ interface SearchParams {
 }
 
 const CompanionsLibrary = async ({ searchParams }: SearchParams) => {
-  const subject = searchParams.subject || ''
-  const topic = searchParams.topic || ''
+  const resolvedSearchParams = await searchParams
+  const subject = resolvedSearchParams.subject || ''
+  const topic = resolvedSearchParams.topic || ''
 
   const companions = await getAllCompanions({ subject, topic })
 

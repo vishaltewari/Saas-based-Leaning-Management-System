@@ -1,23 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { DocumentAnswer } from '@/types';
 
-// OpenAI is optional - if not configured, we'll use fallback responses
-let openai: any = null;
-
-
-if (process.env.OPENAI_API_KEY) {
-  try {
-    const { OpenAI } = require('openai');
-    openai = new OpenAI({
-      apiKey: process.env.OPENAI_API_KEY,
-    });
-    console.log('OpenAI initialized successfully');
-  } catch (error) {
-    console.warn('OpenAI could not be initialized:', error);
-  }
-} else {
-  console.log('OpenAI API key not found - using fallback responses');
-}
+// Document queries are handled through VAPI voice conversations
+// This endpoint provides guidance to use the voice feature instead
+console.log('Document query endpoint ready - directing users to voice conversations');
 
 export async function POST(request: NextRequest) {
   try {
@@ -43,33 +29,17 @@ Please provide a clear, concise answer based on the document content:`;
 
     let answer = '';
 
-  
-    if (openai) {
-      try {
-        const completion = await openai.chat.completions.create({
-          model: 'gpt-3.5-turbo',
-          messages: [
-            {
-              role: 'system',
-              content: 'You are a helpful assistant that answers questions based on provided document content. Always cite relevant parts of the document in your response.'
-            },
-            {
-              role: 'user',
-              content: prompt
-            }
-          ],
-          max_tokens: 500,
-          temperature: 0.3,
-        });
-        answer = completion.choices[0].message.content || 'No answer generated';
-      } catch (error) {
-        console.error('OpenAI API error:', error);
-        answer = `I found information related to "${question}" in the document, but I'm having trouble processing it with AI right now. Please try asking your AI companion about this document during a voice conversation for the best results.`;
-      }
-    } else {
-      // Fallback response when OpenAI is not available
-      answer = `I found your question about "${question}" in the document "${documentName}". Since OpenAI is not configured, I recommend asking your AI companion about this document during a voice conversation for detailed answers and analysis.`;
-    }
+    // Always use fallback response since VAPI handles AI processing
+    answer = `Great question about "${question}"! I can see you're asking about the document "${documentName}". 
+    
+For the best AI-powered analysis of your document, please use the voice conversation feature with your AI companion. Your companion has advanced document understanding capabilities and can:
+
+• Discuss specific sections of your uploaded PDF
+• Answer detailed questions about the content
+• Provide explanations and examples
+• Connect document concepts to your learning topic
+
+Simply start a voice session and ask: "Can you help me understand this document?" or ask specific questions about the content.`;
 
     // Find relevant text snippet (simple approach)
     const words = question.toLowerCase().split(' ');

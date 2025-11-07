@@ -21,8 +21,10 @@ const nextConfig: NextConfig = {
         // Allow embedding your app inside Moodle or any other iframe
         source: "/(.*)",
         headers: [
-          { key: "X-Frame-Options", value: "ALLOWALL" },
-          { key: "Content-Security-Policy", value: "frame-ancestors *" },
+          // Remove X-Frame-Options entirely to avoid conflicts
+          { key: "Content-Security-Policy", value: "frame-ancestors *;" },
+          // Allow cookies in iframe context
+          { key: "Set-Cookie", value: "SameSite=None; Secure" },
         ],
       },
     ];

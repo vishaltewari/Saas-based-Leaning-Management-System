@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Mentora Iframe Test</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        iframe { border: 1px solid #ccc; border-radius: 8px; }
+        .test-container { margin: 20px 0; }
+    </style>
+</head>
+<body>
+    <h1>Testing Mentora Embedding</h1>
+    
+    <div class="test-container">
+        <h2>Test 1: Full App</h2>
+        <iframe 
+            src="https://saas-app-7hed.vercel.app/" 
+            width="100%" 
+            height="600px"
+            sandbox="allow-scripts allow-same-origin allow-forms allow-top-navigation allow-popups allow-modals">
+        </iframe>
+    </div>
+
+    <div class="test-container">
+        <h2>Test 2: Specific Page</h2>
+        <iframe 
+            src="https://saas-app-7hed.vercel.app/companions" 
+            width="100%" 
+            height="600px"
+            sandbox="allow-scripts allow-same-origin allow-forms allow-top-navigation allow-popups allow-modals">
+        </iframe>
+    </div>
+
+    <script>
+        // Listen for messages from iframe
+        window.addEventListener('message', function(event) {
+            console.log('Message from iframe:', event.data);
+        });
+    </script>
+</body>
+</html>
